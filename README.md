@@ -2,7 +2,7 @@
 
 ##### Descubre Cómo crear una API REST con Django, REST Framework y MySQL. Gestiona datos de base de datos utilizando métodos HTTP (GET, POST, PUT, DELETE) de forma eficiente y segura, proporcionando una interfaz completa para la gestión de información.
 
-#### Implementación de una API REST con Django REST Framework y MySQL para gestionar datos de personas, incluyendo nombre, edad, sexo, nacionalidad, profesión, y hobby. La API permitirá operaciones CRUD y garantizará la seguridad e integridad de los datos, proporcionando una interfaz robusta y escalable para su uso.
+#### Dicha API REST con Django REST Framework y MySQL sirve para gestionar datos de personas, incluyendo nombre, edad, sexo, nacionalidad, profesión, y hobby. La API permitirá operaciones CRUD y garantizará la seguridad e integridad de los datos, proporcionando una interfaz robusta y escalable para su uso.
 
 1.  Crear un entorno virtual, hay muchas formas
 
@@ -52,58 +52,63 @@
 
         python manage.py startapp api_personas
 
-10. Instalar la aplicación (api_personas) ya creada en el proyecto, en el archivo settings.py
+10. Instalar la aplicación (api_personas) ya creada en el proyecto, en el archivo settings.py y instalar también (rest_framework)
 
         archivo settings.py
         INSTALLED_APPS = [
-        ----,
-        'api_personas',
+                ----,
+                'rest_framework'
+                'api_personas',
         ]
 
-11. Crear una clase en models.py la cual reprtesentara mi tabla en BD,(bd_django) preferiblemente los modelos
-    se declaran en singular
+11. Editar el archivo settings.py del proyecto, cambiando los parametros de conexión a MySQL
 
-        class Empleado(models.Model):
-                nombre_empleado = models.CharField(max_length=200)
-                apellido_empleado = models.CharField(max_length=100)
-                email_empleado = models.EmailField(max_length=50)
-                edad_empleado = models.IntegerField()
-                genero_empleado = models.CharField(max_length=80, choices=generos)
-                salario_empleado = models.DecimalField(
-                        max_digits=10, decimal_places=2, null=True, blank=True)
-                foto_empleado = models.ImageField(
-                        upload_to='fotos_empleados/', null=True, blank=True)
-                created_at = models.DateTimeField(auto_now_add=True, null=True, blank=True)
-                updated = models.DateTimeField(auto_now_add=False, auto_now=True)
-
-12. crear la Base de Datos (bd_django_mysql) en MySQL
-
-13. Editar el archivo settings.py del proyecto, cambiando los parametros de conexión a MySQL
-
-        `
         DATABASES = {
                 'default': {
                         'ENGINE': 'django.db.backends.mysql', #ENGINE es motor de BD
-                        'NAME': 'bd_django_mysql',
+                        'NAME': 'api_django_rest_framework',
                         'USER': 'root',
                         'PASSWORD': '',
                         'HOST': '127.0.0.1',
                         'PORT': '3306',
                 }
         }
-        `
 
-14. Crear las migraciones y correrlas
+12. Crear una clase en models.py la cuál representará mi tabla en BD,(bd_django) preferiblemente los modelos
+    se declaran en singular
+
+        class Persona(models.Model):
+                nombre = models.CharField(max_length=100)
+                edad = models.IntegerField()
+                sexo = models.CharField(max_length=1, choices=(('M', 'Masculino'), ('F', 'Femenino')))
+                nacionalidad = models.CharField(max_length=100)
+                profesion = models.CharField(max_length=100)
+                hobby = models.CharField(max_length=100)
+                created_at = models.DateTimeField(auto_now_add=True, null=True, blank=True)
+                updated = models.DateTimeField(auto_now_add=False, auto_now=True)
+
+13. Crear la Base de Datos (api_django_rest_framework) en el gestor de BD MySQL
+
+14. Crear y correr las migraciones
 
         python manage.py makemigrations -> Creando migraciones
         python manage.py migrate         -> Correr migraciones
 
 15. Correr el proyecto
 
-        python manage.py runserver
+        python manage.py runserver 8500
         Revisar la consola y visitar la URL http://127.0.0.1:8000
 
-16. Crear el archivo urls.py en la aplicación (bd_django_mysql)
+16. Para administrar personas desde el panel de Django, crea un usuario de Cpanel utilizando el siguiente comando
+
+        python manage.py createsuperuser
+
+17. Registrar mi modelo (Persona) en Django Admin, editar el archivo admin.py de mi aplicación
+
+        from .models import Persona
+        admin.site.register(Persona)
+
+18. Crear el archivo urls.py en la aplicación (bd_django_mysql)
 
         from django.urls import path
         from . import views
@@ -112,10 +117,10 @@
                         path('', views.inicio, name='inicio'),
                         path('registrar_empleado/', views.registrar_empleado,
                                 name='registrar_empleado'),
-                        path('empleados/', views.listar_empleados, name='listar_empleados'),
+                        path('empleados/', views.list´ar_empleados, name='listar_empleados'),
                 ]
 
-17. Conectar las URLS de mi aplicación con el projecto, para esto vamos al archivo uls.py del projecto
+19. Conectar las URLS de mi aplicación con el projecto, para esto vamos al archivo uls.py del projecto
     from django.urls import path, include
 
         urlpatterns = [
@@ -123,18 +128,18 @@
                 path("", include('empleados.urls'))
         ]
 
-18. Crear la carpeta 'templates' dentro de la aplicación donde estarán mis archivos.html
+20. Crear la carpeta 'templates' dentro de la aplicación donde estarán mis archivos.html
 
-19. Crear la carpeta 'static' dentro de mi aplicacion, aqui estaran archivos
+21. Crear la carpeta 'static' dentro de mi aplicacion, aqui estaran archivos
     estaticos (css, js, imagenes, etc..)
 
-20. Crear la carpeta media, para almacenar las imagenes del empleado
+22. Crear la carpeta media, para almacenar las imagenes del empleado
 
-21. Correr archivo requirement.txt
+23. Correr archivo requirement.txt
 
         pip install -r requirements.txt
 
-22. Crear el archivo requirements.txt para tener todos los paquetes del proyecto a la mano
+24. Crear el archivo requirements.txt para tener todos los paquetes del proyecto a la mano
 
         pip freeze > requirements.txt
 
