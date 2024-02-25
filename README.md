@@ -108,52 +108,55 @@
         from .models import Persona
         admin.site.register(Persona)
 
-18. Crear el archivo urls.py en la aplicación (bd_django_mysql)
+18. Crear el Serializador para el modelo Persona, creando el archivo serializers.py en mi aplicación. El serializador se crea con el fin de convertir los objetos Persona en formato JSON
+
+        # Importación de módulos y clases necesarias
+        from rest_framework import serializers
+        from .models import Persona  # Importar modelo Persona
+
+
+        # Definición del serializador
+        class PersonaSerializer(serializers.ModelSerializer):
+        class Meta:
+                model = Persona
+                fields = '__all__'  # Para obtener todos los campos
+
+19. Crear vistas utilizando Django REST Framework
+
+        from rest_framework import generics
+        from .models import Persona
+        from .serializers import PersonaSerializer
+
+        class PersonaListCreate(generics.ListCreateAPIView):
+                queryset = Persona.objects.all()
+                serializer_class = PersonaSerializer
+
+20. Crear el archivo urls.py en la aplicación api_personas, el cuál tendra todas las URLs de la API de personas
 
         from django.urls import path
+
         from . import views
 
-                urlpatterns = [
-                        path('', views.inicio, name='inicio'),
-                        path('registrar_empleado/', views.registrar_empleado,
-                                name='registrar_empleado'),
-                        path('empleados/', views.list´ar_empleados, name='listar_empleados'),
-                ]
+        urlpatterns = [
+                path('', views.PersonaListCreate.as_view(),
+                name='persona-list-create'),
+        ]
 
-19. Conectar las URLS de mi aplicación con el projecto, para esto vamos al archivo uls.py del projecto
+21. Conectar las URLS de mi aplicación con el projecto, para esto vamos al archivo uls.py del projecto
     from django.urls import path, include
 
         urlpatterns = [
                 path('admin/', admin.site.urls),
-                path("", include('empleados.urls'))
+                path('api/personas/', include('api_personas.urls')),
         ]
 
-20. Crear la carpeta 'templates' dentro de la aplicación donde estarán mis archivos.html
+22. Instalar todas las dependencias del proyecto a traves del archivo requirement.txt
 
-21. Crear la carpeta 'static' dentro de mi aplicacion, aqui estaran archivos
-    estaticos (css, js, imagenes, etc..)
-
-22. Crear la carpeta media, para almacenar las imagenes del empleado
-
-23. Correr archivo requirement.txt
-
-        pip install -r requirements.txt
-
-24. Crear el archivo requirements.txt para tener todos los paquetes del proyecto a la mano
-
-        pip freeze > requirements.txt
-
-        Nota: para instalar los paquetes solo basta ejecutar
         pip install -r requirements.txt
 
 #### Resultado final
 
-#####Formulario para registrar Empleado
-![](https://raw.githubusercontent.com/urian121/imagenes-proyectos-github/master/registrar-empleado-con-django-crud-urian-viera.png)
-
-##### Lista de Empleados
-
-![](https://raw.githubusercontent.com/urian121/imagenes-proyectos-github/master/lista-de-empleados-crud-django-urian-viera.png)
+![](https://raw.githubusercontent.com/urian121/imagenes-proyectos-github/master/Django-REST-framework.png)
 
 ### Expresiones de Gratitud 🎁
 
@@ -163,3 +166,21 @@
     Da las gracias públicamente 🤓.
 
 ## No olvides SUSCRIBIRTE 👍
+
+#### Notas
+
+##### Los routers son una herramienta que nos permiten definir las urls de nuestro API de una manera sencilla y ordenada. En resumen nos permiten definir cómodamente conjuntos de urls y nos encaminan a nuestros métodos en función del verbo HTTP (GET, POST, PUT, PATCH...)
+
+##### Las vistas en Django son extensiones de las class-view, En lugar de renderizar HTML, estas vistas devuelven fácilmente JSON, XML u otros formatos de datos deseados para nuestra API.
+
+##### ViewSets, Los viewsets se implementan en las vistas de Django y sirven para mostrar los valores de la API o bien en su frontend o bien como un JSON
+
+##### Los serializadores en Django nos permiten especificar con detalle el formato de las respuestas que proporcionará nuestra API, así como el procesamiento de los datos recibidos en las solicitudes entrantes. Son herramientas clave para definir la estructura de los datos que se enviarán o recibirán a través de nuestra API.
+
+##### Documentación extra
+
+        https://piptocode.github.io/manuals/frameworks/djangorest.html
+
+##### Documentación Oficil
+
+        https://www.django-rest-framework.org/
