@@ -12,7 +12,6 @@ from django.urls import path
 from .views import PersonaList, PersonaDetail
 
 urlpatterns = [
-    path('', PersonaList.as_view(), name='persona-list'),  # Sin barra al inicio
-    path('<int:pk>/', PersonaDetail.as_view(),
-         name='persona-detail'),  # Sin barra al inicio
+    path('personas/', PersonaList.as_view(), name='persona-list'),
+    path('personas/<int:pk>/', PersonaDetail.as_view(), name='persona-detail'),
 ]

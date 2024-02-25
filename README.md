@@ -181,6 +181,11 @@
 
         https://piptocode.github.io/manuals/frameworks/djangorest.html
 
-##### Documentación Oficil
+##### Documentación Oficial
 
         https://www.django-rest-framework.org/
+
+##### Urls para las solicitudes HTTP
+
+        http://127.0.0.1:8500/api/personas/  Para lista o enviar nuevo registro (GET, POST)
+        http://127.0.0.1:8500/api/personas/1/ Para obtener un regitro en particular y poder eliminar o actualizar (DELETE, PUT)
