@@ -6,6 +6,7 @@ from .serializers import PersonaSerializer
 
 class PersonaListCreate(generics.ListCreateAPIView):
     queryset = Persona.objects.all()
+    # establece el serializador que se utilizará para convertir instancias del modelo Persona en formatos de datos como JSON, XML, etc
     serializer_class = PersonaSerializer
 '''
 

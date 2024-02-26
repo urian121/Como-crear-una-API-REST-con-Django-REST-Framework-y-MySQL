@@ -74,20 +74,34 @@
                 }
         }
 
-12. Crear una clase en models.py la cuál representará mi tabla en BD,(bd_django) preferiblemente los modelos
+12. Crear la Base de Datos (api_django_rest_framework) en el gestor de BD MySQL
+
+13. Crear una clase en models.py la cuál representará mi tabla en BD,(bd_django) preferiblemente los modelos
     se declaran en singular
+
+        generos = (
+                ("M", "Masculino"),
+                ("F", "Femenino"),
+                ("Otro", "Otro"),
+        )
+
 
         class Persona(models.Model):
                 nombre = models.CharField(max_length=100)
                 edad = models.IntegerField()
-                sexo = models.CharField(max_length=1, choices=(('M', 'Masculino'), ('F', 'Femenino')))
+                sexo = models.CharField(max_length=5, choices=(generos))
                 nacionalidad = models.CharField(max_length=100)
                 profesion = models.CharField(max_length=100)
                 hobby = models.CharField(max_length=100)
                 created_at = models.DateTimeField(auto_now_add=True, null=True, blank=True)
                 updated = models.DateTimeField(auto_now_add=False, auto_now=True)
 
-13. Crear la Base de Datos (api_django_rest_framework) en el gestor de BD MySQL
+        def __str__(self):
+                return f" {self.id} - {self.nombre} - {self.edad} - {self.sexo} - {self.nacionalidad} - {self.profesion} - {self.hobby}"
+
+        class Meta:
+                db_table = "tbl_personas"
+                ordering = ['-created_at']
 
 14. Crear y correr las migraciones
 
@@ -97,18 +111,25 @@
 15. Correr el proyecto
 
         python manage.py runserver 8500
-        Revisar la consola y visitar la URL http://127.0.0.1:8000
+        Revisar la consola y visitar la URL http://127.0.0.1:8500
 
 16. Para administrar personas desde el panel de Django, crea un usuario de Cpanel utilizando el siguiente comando
 
         python manage.py createsuperuser
 
-17. Registrar mi modelo (Persona) en Django Admin, editar el archivo admin.py de mi aplicación
+17. Visitar el panel de Django
 
+        http://127.0.0.1:8500/admin
+
+18. Registrar mi modelo (Persona) en Django Admin, editar el archivo admin.py de mi aplicación
+
+        # Importando el modelo Persona
         from .models import Persona
+
+        # Registrando el modelo Persona en el panel de administración
         admin.site.register(Persona)
 
-18. Crear el Serializador para el modelo Persona, creando el archivo serializers.py en mi aplicación. El serializador se crea con el fin de convertir los objetos Persona en formato JSON
+19. Crear el Serializador para el modelo Persona, creando el archivo serializers.py en mi aplicación. El serializador se crea con el fin de convertir los objetos Persona en formato JSON
 
         # Importación de módulos y clases necesarias
         from rest_framework import serializers
@@ -121,7 +142,7 @@
                 model = Persona
                 fields = '__all__'  # Para obtener todos los campos
 
-19. Crear vistas utilizando Django REST Framework
+20. Crear vistas utilizando la biblioteca Django REST Framework
 
         from rest_framework import generics
         from .models import Persona
@@ -131,7 +152,7 @@
                 queryset = Persona.objects.all()
                 serializer_class = PersonaSerializer
 
-20. Crear el archivo urls.py en la aplicación api_personas, el cuál tendra todas las URLs de la API de personas
+21. Crear el archivo urls.py en la aplicación api_personas, el cuál tendra todas las URLs de la API de personas
 
         from django.urls import path
 
@@ -142,7 +163,7 @@
                 name='persona-list-create'),
         ]
 
-21. Conectar las URLS de mi aplicación con el projecto, para esto vamos al archivo uls.py del projecto
+22. Conectar las URLS de mi aplicación con el projecto, para esto vamos al archivo uls.py del projecto
     from django.urls import path, include
 
         urlpatterns = [
@@ -150,7 +171,7 @@
                 path('api/personas/', include('api_personas.urls')),
         ]
 
-22. Instalar todas las dependencias del proyecto a traves del archivo requirement.txt
+23. Instalar todas las dependencias del proyecto a traves del archivo requirement.txt
 
         pip install -r requirements.txt
 
@@ -177,13 +198,23 @@
 
 ##### Los serializadores en Django nos permiten especificar con detalle el formato de las respuestas que proporcionará nuestra API, así como el procesamiento de los datos recibidos en las solicitudes entrantes. Son herramientas clave para definir la estructura de los datos que se enviarán o recibirán a través de nuestra API.
 
-##### Documentación extra
+##### En forma resumida, generics.ListCreateAPIView es una clase proporcionada por Django REST Framework que combina funcionalidades para manejar las operaciones de lista (list) y creación (create) en una vista basada en clase.
 
-        https://piptocode.github.io/manuals/frameworks/djangorest.html
+    List: La vista permite la recuperación de una lista de recursos. En el contexto de Django, generalmente corresponde a solicitudes HTTP GET.
+
+    Create: La vista permite la creación de nuevos recursos. En el contexto de Django, esto generalmente corresponde a solicitudes HTTP POST.
+
+##### queryset = Persona.objects.all() define un queryset que representa todas las instancias del modelo Persona en la base de datos. Este queryset se utilizará para operaciones de lectura, como listar todas las instancias de Persona en una vista.
+
+##### serializer_class = PersonaSerializer establece el serializador que se utilizará para convertir instancias del modelo Persona en formatos de datos como JSON, XML, etc., y viceversa.
 
 ##### Documentación Oficial
 
         https://www.django-rest-framework.org/
+
+##### Documentación extra
+
+        https://piptocode.github.io/manuals/frameworks/djangorest.html
 
 ##### Urls para las solicitudes HTTP
 
