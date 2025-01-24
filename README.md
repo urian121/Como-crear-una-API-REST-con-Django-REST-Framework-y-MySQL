@@ -298,4 +298,3 @@ Documentación Adicional
 
 *   [Documentación Oficial de Django REST Framework](https://www.django-rest-framework.org/)
 *   [Documentación Adicional](https://piptocode.github.io/manuals/frameworks/djangorest.html)
-
