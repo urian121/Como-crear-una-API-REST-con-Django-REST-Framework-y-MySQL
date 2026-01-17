@@ -2,7 +2,6 @@
 
 Esta guía muestra cómo crear una **API RESTful** usando **Django**, **Django REST Framework (DRF)** y **MySQL** para gestionar información de personas (nombre, edad, sexo, nacionalidad, profesión y hobby), implementando un **CRUD completo**, claro y escalable.
 
----
 
 ## 🧰 Stack usado
 
@@ -10,8 +9,6 @@ Esta guía muestra cómo crear una **API RESTful** usando **Django**, **Django R
 * Django
 * Django REST Framework
 * MySQL
-
----
 
 ## 📋 Requisitos previos
 
@@ -21,7 +18,6 @@ Antes de empezar, asegúrate de tener:
 * MySQL
 * pip
 
----
 
 ## ⚙️ Paso 1: Crear entorno virtual
 
@@ -38,8 +34,6 @@ virtualenv --version
 ```bash
 python -m venv env
 ```
-
----
 
 ## ▶️ Paso 2: Activar entorno virtual
 
@@ -61,7 +55,6 @@ Para desactivar:
 deactivate
 ```
 
----
 
 ## 📦 Paso 3: Instalar dependencias
 
@@ -81,8 +74,6 @@ Verificar instalación:
 python -m django --version
 ```
 
----
-
 ## 🏗️ Paso 4: Crear proyecto Django
 
 ```bash
@@ -91,7 +82,6 @@ django-admin startproject project_core .
 
 > El `.` crea el proyecto en el directorio actual.
 
----
 
 ## ▶️ Paso 5: Ejecutar servidor
 
@@ -101,15 +91,12 @@ python manage.py runserver 8500
 
 Abrir 👉 `http://127.0.0.1:8500`
 
----
 
 ## 📁 Paso 6: Crear app de personas
 
 ```bash
 python manage.py startapp api_personas
 ```
-
----
 
 ## ⚙️ Paso 7: Registrar apps (`settings.py`)
 
@@ -120,8 +107,6 @@ INSTALLED_APPS = [
     'api_personas',
 ]
 ```
-
----
 
 ## 🛢️ Paso 8: Configurar MySQL
 
@@ -144,7 +129,6 @@ Crear la base de datos en MySQL:
 CREATE DATABASE api_django_rest_framework;
 ```
 
----
 
 ## 🧩 Paso 9: Modelo `Persona`
 
@@ -173,7 +157,6 @@ class Persona(models.Model):
         return self.nombre
 ```
 
----
 
 ## 🔄 Paso 10: Migraciones
 
@@ -181,8 +164,6 @@ class Persona(models.Model):
 python manage.py makemigrations
 python manage.py migrate
 ```
-
----
 
 ## 👤 Paso 11: Crear superusuario
 
@@ -199,7 +180,6 @@ Registrar modelo:
 admin.site.register(Persona)
 ```
 
----
 
 ## 🔄 Paso 12: Serializador
 
@@ -213,8 +193,6 @@ class PersonaSerializer(serializers.ModelSerializer):
         fields = '__all__'
 ```
 
----
-
 ## 🧠 Paso 13: Vistas (CRUD)
 
 ```python
@@ -226,8 +204,6 @@ class PersonaListCreate(ListCreateAPIView):
     queryset = Persona.objects.all()
     serializer_class = PersonaSerializer
 ```
-
----
 
 ## 🌐 Paso 14: URLs de la app
 
@@ -249,7 +225,6 @@ urlpatterns = [
 ]
 ```
 
----
 
 ## 📌 Endpoints disponibles
 
@@ -260,13 +235,11 @@ urlpatterns = [
 | PUT    | `/api/personas/{id}/` | Actualizar      |
 | DELETE | `/api/personas/{id}/` | Eliminar        |
 
----
 
 ## 🖼️ Diagrama
 
 ![Django REST API](https://raw.githubusercontent.com/urian121/imagenes-proyectos-github/master/Django-REST-framework.png)
 
----
 
 ## 🧠 Notas importantes
 
@@ -275,14 +248,12 @@ urlpatterns = [
 * Puedes mejorar usando **ViewSets + Routers**
 * Ideal agregar **JWT y permisos** en producción
 
----
 
 ## 📚 Documentación
 
 * 🔗 [https://www.django-rest-framework.org/](https://www.django-rest-framework.org/)
 * 🔗 [https://piptocode.github.io/manuals/frameworks/djangorest.html](https://piptocode.github.io/manuals/frameworks/djangorest.html)
 
----
 
 ## ☕ Agradecimientos
 
